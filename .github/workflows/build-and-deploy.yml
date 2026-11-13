@@ -7,19 +7,6 @@ name: 'Build and deploy tianairiela/lorem-ipsum-page-v2'
 permissions:
   contents: read
 jobs:
-  preview:
-    if: "github.event_name == 'push' && !github.event.deleted && github.ref_name != 'main'"
-    runs-on:
-      - self-hosted
-      - tianairiela/lorem-ipsum-page-v2
-    concurrency:
-      group: 'preview-${{ github.ref_name }}'
-      cancel-in-progress: false
-    steps:
-      - name: 'Deploy the preview'
-        env:
-          GITHUB_TOKEN: '${{ github.token }}'
-        run: 'if [ -f "$HOME/deployment/dri-hebergement.com/scripts/deploy.sh" ]; then printf ''%s\n'' "$GITHUB_TOKEN" "$GITHUB_REPOSITORY" "$GITHUB_REF_NAME" "$GITHUB_SHA" | bash "$HOME/deployment/dri-hebergement.com/scripts/deploy.sh" preview; else echo "~/deployment/dri-hebergement.com/scripts/deploy.sh absent : connectez-vous au serveur depuis EVA Pilote, rien n''est déployé."; fi'
   production:
     if: "github.event_name == 'push' && !github.event.deleted && github.ref_name == 'main'"
     runs-on:
